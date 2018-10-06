@@ -1,10 +1,19 @@
 import React from 'react';
 import { View, TouchableOpacity, Button, TextInput, Text } from 'react-native';
+import { Animated } from 'react-native-web';
 
 class BottomPanel extends React.Component {
   state = {
-    pokemonName: ''
+    pokemonName: '',
+    translationY: new Animated.Value(100)
   };
+
+  componentDidMount() {
+    Animated.timing(this.state.translationY, {
+      toValue: 0,
+      duration: 400
+    }).start();
+  }
 
   clearData = () => {
     this.setState({
@@ -21,7 +30,7 @@ class BottomPanel extends React.Component {
   render() {
     const { onCloseClick, selectedLocation, onSubmit } = this.props;
     return (
-      <View
+      <Animated.View
         style={{
           padding: 10,
           backgroundColor: 'white',
@@ -32,7 +41,8 @@ class BottomPanel extends React.Component {
           shadowOpacity: 0.2,
           position: 'absolute',
           bottom: 0,
-          width: '100%'
+          width: '100%',
+          transform: [{ translateY: this.state.translationY }]
         }}
       >
         <Text style={{ fontWeight: '600' }}>
@@ -56,7 +66,7 @@ class BottomPanel extends React.Component {
             }}
           />
         </View>
-      </View>
+      </Animated.View>
     );
   }
 }
